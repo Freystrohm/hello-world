@@ -16,23 +16,28 @@ public class ClientMain
 			throws IOException, UnknownHostException
 	{
 		Scanner scan = new Scanner(System.in);
-		Socket Anschluss = new Socket("localhost", 6000);
+		Scanner scanServer;
+		Socket anschluss = new Socket("localhost", 6000);
+		scanServer = new Scanner(anschluss.getInputStream());
 		String nachricht = "";
-		PrintWriter Ausgabe = new PrintWriter(Anschluss.getOutputStream(),
+		PrintWriter ausgabe = new PrintWriter(anschluss.getOutputStream(),
 				true);
 		boolean b = true;
 		while (b)
 		{
 			System.out.println("Nachricht?");
-			nachricht = scan.next();
+			nachricht = scan.nextLine();		
+			ausgabe.println(nachricht);
+			System.out.println(scanServer.nextLine());
+			
 			System.out.println("Ende?");
 			b = scan.nextBoolean();
-			System.out.println(nachricht);
-			Ausgabe.println(nachricht);
+			scan.nextLine();
 		}
 		
 		scan.close();
-		Anschluss.close();
+		scanServer.close();
+		anschluss.close();
 
 	}
 

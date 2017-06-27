@@ -16,15 +16,26 @@ public class ServerMain
 	{
 		ServerSocket anschluss = new ServerSocket(6000);
 		String S="";
+		Socket lauschen = anschluss.accept();
+		PrintWriter clientOut = new PrintWriter(lauschen.getOutputStream(), true);
 		while (!S.equals("ENDE"))
 		{
-			Socket lauschen = anschluss.accept();
+			
 			InputStreamReader PortLeser = new InputStreamReader(
 					lauschen.getInputStream());
 			BufferedReader Eingabe = new BufferedReader(PortLeser);
 			S = Eingabe.readLine();
 			System.out.println("Client sagt: " + S);
+			if(S.equals("Hörst du mich"))
+			{
+				clientOut.println("Ich höre dich");
+			}
+			else
+			{
+				clientOut.println("habe ich nicht verstanden");
+			}
 		}
+		lauschen.close();
 		anschluss.close();
 	}
 
